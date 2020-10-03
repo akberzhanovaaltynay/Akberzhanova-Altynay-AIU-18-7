@@ -1,0 +1,134 @@
+package com.company;
+
+import java.util.Scanner;
+import java.lang.String;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        String[] symbol;
+        int[] vryma;
+
+        int n;
+        Scanner in = new Scanner(System.in);
+        System.out.print("Символдар колеми :");
+        n = in.nextInt();
+
+        symbol = new String[n+1];
+
+        for (int i=0; i<=n;i++) {
+            System.out.print("Символдар:");
+            symbol[i] = in.nextLine();
+        }
+
+        vryma = new int[n+1];
+        for (int i = 1; i <= n; i++) {
+
+            RR och = new RR(symbol[i], 0, vryma[i]);
+            System.out.print("Уакыты  " + och.getName() + "=");
+            vryma[i] = in.nextInt();
+        }
+
+       
+        int dlina = -999;
+        for (int i = 1; i <= n; i++) {
+            if(vryma[i] > dlina){
+                dlina = vryma[i];
+            }
+        }
+        System.out.println();
+        System.out.println("Кайталануы " + dlina + " раз");
+        System.out.println();
+
+        
+        int m;
+        int[] time = new int[n+1];
+        for(int i=1;i<=n;i++){
+            time[i] = i-1;
+            System.out.println("бастапкы куту уакыты " + symbol[i] + "=" + time[i]);
+        }m=time[n];
+
+            System.out.println();
+
+        
+        for(int j=0;j<dlina;j++) {
+            for (int i = 1; i <= n; i++) {
+                RR och = new RR(symbol[i], 0, vryma[i]);
+
+                if(vryma[i] > 1){
+                    time[i]+=m;
+                    System.out.print(och.getName());
+                    och.setBurst_time(och.getBurst_time()-1);
+                    vryma[i]=och.getBurst_time();
+                }
+                else if(vryma[i] == 1){
+                    System.out.print(och.getName());
+                    och.setBurst_time(och.getBurst_time()-1);
+                    vryma[i]=och.getBurst_time();
+                    m-=1;
+                }
+                else{
+                    och.setBurst_time(och.getBurst_time());
+                    vryma[i]=och.getBurst_time();
+                }
+            }
+            System.out.println();
+        }
+        System.out.println();
+
+        float obsh = 0;
+        
+        for(int i=1;i<=n;i++){
+            RR och = new RR(symbol[i], 0, vryma[i]);
+            och.setArr_time(obsh+=((time[i]/4)+(time[i]%4*0.1)));
+            System.out.println("Куту уакыты " + symbol[i] + " = " + time[i]);
+        }
+        System.out.println();
+        System.out.println("Орташа уакыт" + obsh);
+    }
+
+}
+package com.company;
+
+import java.util.Scanner;
+import java.lang.String;
+
+public class RR {
+            private String name;
+            private float arr_time;
+            private int burst_time;
+            
+
+            public RR(String name,float arr_time, int burst_time){
+                this.name = name;
+                this.arr_time = arr_time;
+                this.burst_time = burst_time;
+            }
+
+            public String getName(){
+                return  name;
+            }
+
+            public void setName(String name){
+                this.name = name;
+            }
+
+            public float getArr_time(){
+                return arr_time;
+            }
+
+            public void setArr_time(float arr_time){
+                this.arr_time = arr_time;
+
+             }
+
+             public int getBurst_time(){
+                return burst_time;
+             }
+
+             public void setBurst_time(int burst_time){
+                this.burst_time = burst_time;
+             }
+
+}
